@@ -6,6 +6,7 @@
  * Time: 11:39 PM
  */
 namespace AppBundle\Command;
+
 use AppBundle\Entity\ClassSymfony;
 use AppBundle\Entity\InterfaceSymfony;
 use AppBundle\Entity\NamespaceSymfony;
@@ -14,7 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-class ParseCommand extends  ContainerAwareCommand
+class ParseCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -46,7 +47,7 @@ class ParseCommand extends  ContainerAwareCommand
         $forInterface = $crawler->filter('div.col-md-6 > em > a');
 
         foreach ($forNamespace as $item) {
-            $urlSymf = 'http://api.symfony.com/3.2/' . str_replace('../', '', $item->getAttribute("href"));
+            $urlSymf = 'http://api.symfony.com/3.4/' . str_replace('../', '', $item->getAttribute("href"));
             $urlName = $item->textContent;
             $namespace = new NamespaceSymfony();
             $namespace->setUrl($urlSymf);
@@ -54,10 +55,10 @@ class ParseCommand extends  ContainerAwareCommand
             $namespace->setParent($parent);
             $em->persist($namespace);
             $this->getNamespaceRecursion($urlSymf, $namespace);
-    }
+        }
         if ($forClass->count() > 0) {
             foreach ($forClass as $item) {
-                $classUrl = 'http://api.symfony.com/3.2/' . str_replace("../", "", $item->getAttribute('href'));
+                $classUrl = 'http://api.symfony.com/3.4/' . str_replace("../", "", $item->getAttribute('href'));
                 $className = $item->textContent;
                 $class = new ClassSymfony();
                 $class->setUrl($classUrl);
@@ -67,7 +68,7 @@ class ParseCommand extends  ContainerAwareCommand
         }
         if ($forInterface->count() > 0) {
             foreach ($forInterface as $item) {
-                $interUrl = 'http://api.symfony.com/3.2/' . str_replace("../", "", $item->getAttribute('href'));
+                $interUrl = 'http://api.symfony.com/3.4/' . str_replace("../", "", $item->getAttribute('href'));
                 $interName = $item->textContent;
                 $interface = new InterfaceSymfony();
                 $interface->setUrl($interUrl);
