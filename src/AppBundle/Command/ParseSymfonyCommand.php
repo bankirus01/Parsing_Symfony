@@ -13,9 +13,10 @@ use AppBundle\Entity\NamespaceSymfony;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DomCrawler\Crawler;
 
-class ParseCommand extends ContainerAwareCommand
+class ParseSymfonyCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
