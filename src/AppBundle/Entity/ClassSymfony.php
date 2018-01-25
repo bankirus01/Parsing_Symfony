@@ -3,13 +3,18 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * ClassSymfony
  *
- * @ORM\Entity()
+
+ * @Gedmo\Tree(type="nested")
+ * @ORM\Table(name="class_symfony")
+ * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
+ *
  */
-class ClassSymfony
+class ClassSymfony implements PageItemInterface
 {
     /**
      * @var int
@@ -19,26 +24,48 @@ class ClassSymfony
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="text")
      */
     private $name;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string")
+     * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
+
     /**
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="left_key", type="integer")
+     */
+    private $lft;
+
+    /**
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="right_key", type="integer")
+     */
+    private $rgt;
+
+    /**
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="level", type="integer")
+     */
+    private $lvl;
+
+    /**
+     * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="NamespaceSymfony", inversedBy="classes")
+     * @ORM\JoinColumn(name="namespace_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     private $namespace;
+
     /**
-     * Get namespace
-     *
-     * @return mixed
+     * Get id
      */
     public function getNamespace(): NamespaceSymfony
     {
@@ -50,8 +77,9 @@ class ClassSymfony
      * @param mixed $namespace
      *
      * @return ClassSymfony
+     *
      */
-    public function setNamespace(NamespaceSymfony $namespace): ClassSymfony
+    public function setNamespace($namespace): ClassSymfony
     {
         $this->namespace = $namespace;
         return $this;
@@ -81,7 +109,7 @@ class ClassSymfony
      *
      * @return ClassSymfony
      */
-    public function setName(string $name): CLassSymfony
+    public function setName($name): CLassSymfony
     {
         $this->name = $name;
         return $this;
@@ -102,7 +130,7 @@ class ClassSymfony
      *
      * @return ClassSymfony
      */
-    public function setUrl(string $url): ClassSymfony
+    public function setUrl($url): ClassSymfony
     {
         $this->url = $url;
         return $this;

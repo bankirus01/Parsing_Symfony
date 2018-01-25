@@ -1,29 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * NamespaceSymfony
  *
- * @ORM\Entity()
+ * @Gedmo\Tree(type="nested")
+ * @ORM\Table(name="namespace_symfony")
+ * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  */
 class NamespaceSymfony
 {
-    /**
-     * @var NamespaceSymfony
-     *
-     * @ORM\ManyToOne(targetEntity="NamespaceSymfony", inversedBy="children")
-     */
-    private $parent;
-    /**
-     * @var NamespaceSymfony
-     *
-     * @ORM\OneToMany(targetEntity="NamespaceSymfony", mappedBy="parent")
-     */
-    private $children;
     /**
      * @var int
      *
@@ -32,91 +25,99 @@ class NamespaceSymfony
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="level", type="integer")
+     */
+    private $lvl;
+
+    /**
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="left_key", type="integer")
+     */
+    private $lft;
+
+    /**
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="right_key", type="integer")
+     */
+    private $rgt;
+
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="text")
      */
     private $name;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string")
+     * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
+
     /**
      * @ORM\OneToMany(targetEntity="InterfaceSymfony", mappedBy="namespace")
      */
     private $interfaces;
+
     /**
-     * @ORM\OneToMany(targetEntity="ClassSymfony", mappedBy="namespace")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ClassSymfony", mappedBy="namespace")
      */
     private $classes;
+
     /**
-     * NamespaceSymfony and ClassSymfony constructor
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="NamespaceSymfony", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="NamespaceSymfony", mappedBy="parent")
+     */
+    private $children;
+
+    /**
+     * @Gedmo\TreeRoot
+     * @ORM\ManyToOne(targetEntity="NamespaceSymfony")
+     * @ORM\JoinColumn(name="tree_root", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $root;
+
+
+    /**
+     * NamespaceSymfony constructor.
      */
     public function __construct()
     {
-        $this->interfaces = new ArrayCollection();
         $this->classes = new ArrayCollection();
+        $this->interfaces = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
-    /**
-     * @return NamespaceSymfony|null
-     */
-    public function getParent(): ?NamespaceSymfony
-    {
-        return $this->parent;
-    }
-    /**
-     * @param NamespaceSymfony|null $parent
-     *
-     * @return NamespaceSymfony
-     */
-    public function setParent(?NamespaceSymfony $parent): NamespaceSymfony
-    {
-        $this->parent = $parent;
-        return $this;
-    }
-    /**
-     * @return ArrayCollection
-     */
-    public function getChildren(): ArrayCollection
-    {
-        return $this->children;
-    }
-    /**
-     * @return mixed
-     */
-    public function getInterfaces(): ArrayCollection
-    {
-        return $this->interfaces;
-    }
-    /**
-     * @return mixed
-     */
-    public function getClasses(): ArrayCollection
-    {
-        return $this->classes;
-    }
+
     /**
      * Get id
      *
-     * @return null|int
+     * @return int
      */
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
+
     /**
      * Get name
      *
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
-        return (string) $this->name;
+        return $this->name;
     }
+
     /**
      * Set name
      *
@@ -124,20 +125,23 @@ class NamespaceSymfony
      *
      * @return NamespaceSymfony
      */
-    public function setName(string $name): NamespaceSymfony
+    public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
+
     /**
      * Get url
      *
      * @return string
      */
-    public function getUrl(): string
+    public function getUrl()
     {
-        return (string) $this->url;
+        return $this->url;
     }
+
     /**
      * Set url
      *
@@ -145,75 +149,110 @@ class NamespaceSymfony
      *
      * @return NamespaceSymfony
      */
-    public function setUrl(string $url): NamespaceSymfony
+    public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
+
     /**
-     * Add interface
-     *
-     * @param \AppBundle\Entity\InterfaceSymfony $interface
-     *
+     * @return mixed
+     */
+    public function getInterfaces()
+    {
+        return $this->interfaces;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClasses()
+    {
+        return $this->classes;
+    }
+
+    /**
+     * @param mixed $parent
      * @return NamespaceSymfony
      */
-    public function addInterface(InterfaceSymfony $interface): NamespaceSymfony
+    public function setParent(NamespaceSymfony $parent = null)
     {
-        $this->interfaces[] = $interface;
+        $this->parent = $parent;
         return $this;
     }
+
     /**
-     * Remove interface
-     *
-     * @param \AppBundle\Entity\InterfaceSymfony $interface
+     * @return mixed
      */
-    public function removeInterface(InterfaceSymfony $interface)
+    public function getLvl()
     {
-        $this->interfaces->removeElement($interface);
+        return $this->lvl;
     }
+
     /**
-     * Add class
-     *
-     * @param \AppBundle\Entity\ClassSymfony $class
-     *
+     * @param mixed $lvl
      * @return NamespaceSymfony
      */
-    public function addClass(ClassSymfony $class): NamespaceSymfony
+    public function setLvl($lvl)
     {
-        $this->classes[] = $class;
+        $this->lvl = $lvl;
         return $this;
     }
+
     /**
-     * Remove class
-     *
-     * @param \AppBundle\Entity\ClassSymfony $class
+     * @return mixed
      */
-    public function removeClass(ClassSymfony $class)
+    public function getChildren()
     {
-        $this->classes->removeElement($class);
+        return $this->children;
     }
+
     /**
-     * Add children
-     *
-     * @param \AppBundle\Entity\NamespaceSymfony $children
-     *
-     * @return NamespaceSymfony
+     * @return mixed
      */
-    public function addChildren(NamespaceSymfony $children): NamespaceSymfony
+    public function getLft()
     {
-        $this->children[] = $children;
-        return $this;
+        return $this->lft;
     }
+
     /**
-     * Remove children
-     *
-     * @param \AppBundle\Entity\NamespaceSymfony $children
-     *
-     * @return NamespaceSymfony
+     * @param mixed $lft
      */
-    public function removeChildren(NamespaceSymfony $children): NamespaceSymfony
+    public function setLft($lft)
     {
-        $this->children->removeElement($children);
-        return $this;
+        $this->lft = $lft;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * @param mixed $rgt
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * @param mixed $root
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
     }
 }
