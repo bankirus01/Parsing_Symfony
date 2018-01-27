@@ -29,7 +29,7 @@ class ParseSymfonyCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('app:parse_symfony')
+            ->setName('app:parse_api')
             ->setDescription('Creates a new parse API.symfony.com.');
     }
 
