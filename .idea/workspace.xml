@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca492d88-a07b-44ac-8fcb-819150e2ed1b" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/config/doctrine_extensions.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/AppBundle/Listener/DoctrineExtensionListener.php" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/config/config.yml" afterPath="$PROJECT_DIR$/app/config/config.yml" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Command/ParseSymfonyCommand.php" afterPath="$PROJECT_DIR$/src/AppBundle/Command/ParseSymfonyCommand.php" />
-      <change beforePath="$PROJECT_DIR$/var/SymfonyRequirements.php" afterPath="$PROJECT_DIR$/var/SymfonyRequirements.php" />
-      <change beforePath="$PROJECT_DIR$/var/cache/.gitkeep" afterPath="$PROJECT_DIR$/var/cache/.gitkeep" />
-      <change beforePath="$PROJECT_DIR$/var/logs/.gitkeep" afterPath="$PROJECT_DIR$/var/logs/.gitkeep" />
-      <change beforePath="$PROJECT_DIR$/var/sessions/.gitkeep" afterPath="$PROJECT_DIR$/var/sessions/.gitkeep" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -356,7 +347,7 @@
       <workItem from="1516492275859" duration="1664000" />
       <workItem from="1516493992658" duration="5033000" />
       <workItem from="1516907110210" duration="7481000" />
-      <workItem from="1516987421414" duration="6994000" />
+      <workItem from="1516987421414" duration="7023000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1514914481014</created>
@@ -421,11 +412,18 @@
       <option name="project" value="LOCAL" />
       <updated>1516913759235</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fix">
+      <created>1517057294995</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1517057294995</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51838000" />
+    <option name="totallyTimeSpent" value="51867000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -470,11 +468,11 @@
     <MESSAGE value="first" />
     <MESSAGE value="Entity" />
     <MESSAGE value="Command" />
-    <MESSAGE value="fix" />
     <MESSAGE value="deleted unnecessary data from file AppKernel.php" />
     <MESSAGE value=" update files and code" />
     <MESSAGE value="add to gitignore .idea" />
-    <option name="LAST_COMMIT_MESSAGE" value="add to gitignore .idea" />
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
